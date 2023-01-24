@@ -10,7 +10,13 @@ app.use(cors())
 
 app.get('/', (req, res) => {
     res.status(200);
-    res.send({value: 'That is false' })
+    res.send({value: 'API working' })
+})
+
+app.get('/isSP500', (req, res) => {
+  console.log(req)
+  const isSP = isSP500(req.query.ticker)
+  res.send(isSP)
 })
 
 // ROIC
@@ -46,8 +52,8 @@ async function populateList() {
 
 populateList();
 
-async function isSP500() {
-  const isInSP500 = (constituents.indexOf('CDNS') !== -1) 
+function isSP500(ticker) {
+  const isInSP500 = (constituents.indexOf(ticker) !== -1) 
   console.log(isInSP500)
   return isInSP500
 }
