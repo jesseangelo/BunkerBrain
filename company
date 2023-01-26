@@ -1,0 +1,7 @@
+{
+  ticker: string,
+  marketcap: number,
+  notes: string,
+  isSP500: boolean
+
+}
