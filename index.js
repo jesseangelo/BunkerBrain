@@ -4,9 +4,6 @@ const axios = require("axios");
 const cheerio = require("cheerio");
 const Company = require('./Types/company');
 const io = require('./fileIO')
-io.init();
-io.loadData();
-
 const app = express();
 app.use(cors())
 
@@ -16,6 +13,11 @@ let companies = [];
 let constituents = [];
 //
 
+function init() {
+  io.init();
+}
+
+init()
 
 // ROIC
 async function roic() {
@@ -56,7 +58,6 @@ function isSP500(ticker) {
 }
 
 
-
 // ENDPOINTS
 //
 
@@ -75,3 +76,7 @@ app.get('/isSP500', (req, res) => {
   const isSP = isSP500(req.query.ticker)
   res.send(isSP)
 })
+
+app.get('/companies', (req, res) => {
+  res.send(io.getCompanies())
+});
