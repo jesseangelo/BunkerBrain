@@ -1,4 +1,5 @@
 const express = require('express');
+const bodyParser = require('body-parser')
 const cors = require('cors');
 const axios = require("axios");
 const cheerio = require("cheerio");
@@ -6,6 +7,13 @@ const Company = require('./Types/company');
 const io = require('./fileIO')
 const app = express();
 app.use(cors())
+
+var jsonParser = bodyParser.json()
+ 
+// POST /api/users gets JSON bodies
+// app.post('/api/users', jsonParser, function (req, res) {
+//   // create user in req.body
+// })
 
 // VARS
 let loaded_companies = [];
@@ -68,7 +76,8 @@ app.listen(3000, () => {
 app.get('/', (req, res) => {
   res.status(200);
   res.send({ value: 'API working' })
-  console.log(new Company('BOB'))
+  // console.log(new Company('BOB'))
+  
 })
 
 app.get('/isSP500', (req, res) => {
@@ -80,3 +89,15 @@ app.get('/isSP500', (req, res) => {
 app.get('/companies', (req, res) => {
   res.send(io.getCompanies())
 });
+
+app.post('/update', jsonParser, (req, res) => {
+  console.log("Method called is -- ", req.method)
+  console.log(req.body);
+  res.status(200)
+  res.end()
+})
+
+// POST /api/users gets JSON bodies
+// app.post('/api/users', jsonParser, function (req, res) {
+  // create user in req.body
+//})
