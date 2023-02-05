@@ -24,7 +24,7 @@ module.exports = {
     });
   },
 
-  saveData: function() {
+  saveData: function(companies) {
     fs.writeFile('companies.json',
       JSON.stringify(companies, null, 2), (err) => {
         if (err) {
@@ -32,6 +32,8 @@ module.exports = {
           return;
         }
         console.log("Successfully written data to file");
+        // We should then load here
+        // loadData();
       });
   }
 }

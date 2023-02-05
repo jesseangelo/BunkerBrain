@@ -7,13 +7,10 @@ const Company = require('./Types/company');
 const io = require('./fileIO')
 const app = express();
 app.use(cors())
+app.use(express.json());
 
 var jsonParser = bodyParser.json()
- 
-// POST /api/users gets JSON bodies
-// app.post('/api/users', jsonParser, function (req, res) {
-//   // create user in req.body
-// })
+
 
 // VARS
 let loaded_companies = [];
@@ -47,7 +44,7 @@ async function roic() {
   // }
 }
 
-
+// populate SP500; get data
 async function populateList() {
   const { data } = await axios.get('https://en.wikipedia.org/wiki/List_of_S%26P_500_companies');
   const $ = cheerio.load(data);
@@ -65,7 +62,6 @@ function isSP500(ticker) {
   return isInSP500
 }
 
-
 // ENDPOINTS
 //
 
@@ -76,8 +72,6 @@ app.listen(3000, () => {
 app.get('/', (req, res) => {
   res.status(200);
   res.send({ value: 'API working' })
-  // console.log(new Company('BOB'))
-  
 })
 
 app.get('/isSP500', (req, res) => {
@@ -90,14 +84,15 @@ app.get('/companies', (req, res) => {
   res.send(io.getCompanies())
 });
 
-app.post('/update', jsonParser, (req, res) => {
+app.post('/update', (req, res) => {
   console.log("Method called is -- ", req.method)
   console.log(req.body);
   res.status(200)
-  res.end()
+  res.send('update req ' + req.body);
+
+  //
+  io.saveData(req.body)
+  
+  // res.end()
 })
 
-// POST /api/users gets JSON bodies
-// app.post('/api/users', jsonParser, function (req, res) {
-  // create user in req.body
-//})
