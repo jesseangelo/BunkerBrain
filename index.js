@@ -24,7 +24,19 @@ function init() {
 
 init()
 
-// ROIC
+async function getEarningsDate(ticker) {
+  const { data } = await axios.get('https://www.zacks.com/stock/research/'+ticker+'/earnings-calendar');
+  const $ = cheerio.load(data);
+  console.log('getting earnings date for', ticker)
+
+  const date = $(".key-expected-earnings-data-module tbody > tr:first-child th").text().slice(0, 10);
+  
+ return date;
+}
+
+// getEarningsDate('FND')
+
+// ROIC - probably have to refine and make sure we're getting correct data here
 async function roic() {
   console.log('roic data called')
   // try {
@@ -57,6 +69,9 @@ async function populateList() {
 // populateList();
 
 function isSP500(ticker) {
+  if(!constituents.length) {
+    console.error('NO CONSITUENTS')
+  }
   const isInSP500 = (constituents.indexOf(ticker) !== -1)
   console.log(isInSP500)
   return isInSP500
@@ -75,7 +90,7 @@ app.get('/', (req, res) => {
 })
 
 app.get('/isSP500', (req, res) => {
-  console.log(req)
+  console.log(req.body)
   const isSP = isSP500(req.query.ticker)
   res.send(isSP)
 })
@@ -94,5 +109,13 @@ app.post('/update', (req, res) => {
   io.saveData(req.body)
   
   // res.end()
+})
+
+app.get('/nextearnings', (req, res) => {
+  getEarningsDate(req.query.ticker).then((date) => {
+    console.log('resolved')
+    console.log('found date', date)
+    res.send(date)
+  })
 })
 

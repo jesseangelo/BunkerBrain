@@ -1,8 +1,14 @@
 [
   {
+    "ticker": "BABA"
+  },
+  {
     "ticker": "BOB"
   },
   {
-    "ticker": "ALL"
+    "ticker": "MSFT"
+  },
+  {
+    "ticker": "AMZN"
   }
 ]
