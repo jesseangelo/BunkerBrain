@@ -25,11 +25,12 @@ function init() {
 init()
 
 async function getEarningsDate(ticker) {
-  const { data } = await axios.get('https://www.zacks.com/stock/research/'+ticker+'/earnings-calendar');
+  const { data } = await axios.get('https://www.earningswhispers.com/stocks/'+ticker);
   const $ = cheerio.load(data);
   console.log('getting earnings date for', ticker)
 
-  const date = $(".key-expected-earnings-data-module tbody > tr:first-child th").text().slice(0, 10);
+  const date = $("#datebox .mainitem").text();
+  console.log(date)
   
  return date;
 }
@@ -64,9 +65,10 @@ async function populateList() {
   $("#constituents tbody tr > td:nth-child(1) > a:nth-child(1)").each(function(n, e) {
     constituents.push($(this).text())
   })
+  console.log("SP500 loaded")
 }
 
-// populateList();
+populateList();
 
 function isSP500(ticker) {
   if(!constituents.length) {
@@ -106,14 +108,31 @@ app.post('/update', (req, res) => {
   res.send('update req ' + req.body);
 
   //
-  io.saveData(req.body)
+  var all = io.getCompanies();
+  var allUpdated = [];
+  for(var n = 0; n < all.length; n++) {
+    var comp = all[n]
+      
+    if(all[n].ticker == req.body.ticker) {
+      console.log('COMPARED')
+      allUpdated.push(req.body)
+    } else {
+      allUpdated.push(comp)
+    }
+  }
+  
+  
+  console.log(allUpdated)
+  // const allUpdated = []
+  io.saveData(allUpdated)
+  init();
   
   // res.end()
 })
 
 app.get('/nextearnings', (req, res) => {
   getEarningsDate(req.query.ticker).then((date) => {
-    console.log('resolved')
+    // console.log('resolved')
     console.log('found date', date)
     res.send(date)
   })
