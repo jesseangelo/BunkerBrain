@@ -84,7 +84,7 @@ function isSP500(ticker) {
 // ENDPOINTS
 //
 
-app.listen(3000, () => {
+app.listen(8080, () => {
   console.log("server started");
 });
 
