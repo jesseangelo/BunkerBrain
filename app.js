@@ -15,11 +15,13 @@ var jsonParser = bodyParser.json();
 let loaded_companies = [];
 let companies = [];
 let constituents = [];
+let running = false;
 //
 
 function init() {
   io.init();
   populateList();
+  running = true;
 }
 
 init();
@@ -92,6 +94,11 @@ app.get("/", (req, res) => {
   res.status(200);
   res.send({ value: "API working" });
 });
+
+app.get("/healthCheck", (req, res) => {
+  console.log('health check called', running)
+  res.send(running)
+})
 
 app.get("/isSP500", (req, res) => {
   console.log(req.body);
