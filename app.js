@@ -6,6 +6,8 @@ const cheerio = require("cheerio");
 const Company = require("./Types/company");
 const io = require("./fileIO");
 const app = express();
+const av = require("./alphaVantage_APIs");
+const exAPIs = require('./external_APIs');
 app.use(cors());
 app.use(express.json());
 
@@ -33,29 +35,27 @@ async function getEarningsDate(ticker) {
   const $ = cheerio.load(data);
   console.log("getting earnings date for", ticker);
 
-  const date = $("#datebox .mainitem").text();
-  console.log(date);
+  const date = $("div#epsdate-act").text();
+  // console.log('date is', date);
 
   return date;
 }
 
-// getEarningsDate('FND')
-
 // ROIC - probably have to refine and make sure we're getting correct data here
-async function roic() {
+async function roic(ticker) {
   console.log("roic data called");
   // try {
   // Fetch HTML of the page we want to scrape
-  const { data } = await axios.get("https://roic.ai/company/EPAM");
-  // Load HTML we fetched in the previous line
-  const $ = cheerio.load(data);
+  // const { data } = await axios.get("https://roic.ai/company/" + ticker + ":US");
+  // // Load HTML we fetched in the previous line
+  // const $ = cheerio.load(data);
 
-  const ttm_roic = $(
-    "div.flex:nth-child(22) > div:nth-child(2) > div:nth-child(17)"
-  ).text();
+  // const ttm_roic = $(
+  //   "div.flex:nth-child(22) > div:nth-child(2) > div:nth-child(17)"
+  // ).text();
 
-  console.log(ttm_roic);
-  return ttm_roic;
+  // console.log(ttm_roic);
+  return "12";
 }
 
 // populate SP500; get data
@@ -96,9 +96,9 @@ app.get("/", (req, res) => {
 });
 
 app.get("/healthCheck", (req, res) => {
-  console.log('health check called', running)
-  res.send(running)
-})
+  console.log("health check called", running);
+  res.send(running);
+});
 
 app.get("/isSP500", (req, res) => {
   console.log(req.body);
@@ -111,28 +111,31 @@ app.get("/companies", (req, res) => {
 });
 
 app.get("/companyOverview", (req, res) => {
-  console.log("Method called is -- ", req.method);
+  av.companyOverview(req.query.ticker).then((response) => {
+    res.send(response.data);
+  });
+});
 
-  key = "STJWWX6PCMUT17M";
+app.get("/balanceSheet", (req, res) => {
+  av.balanceSheet(req.query.ticker).then((response) => {
+    res.send(response.data);
+  });
+});
 
-  axios
-    .get(
-      `https://www.alphavantage.co/query?function=OVERVIEW&symbol=${req.query.ticker}&apikey=${this.key}`
-    )
-    .then((response) => {
-      console.log(`Overview for: ${req.query.ticker} \n ${response.data}`);
-      res.send(response.data);
-    });
+app.get("/cashFlow", (req, res) => {
+  av.cashFlow(req.query.ticker).then((response) => {
+    res.send(response.data);
+  });
+});
+
+app.get("/incomeStatement", (req, res) => {
+  av.incomeStatement(req.query.ticker).then((response) => {
+    res.send(response.data);
+  });
 });
 
 app.get("/fearGreed", (req, res) => {
-  axios
-    .get("https://production.dataviz.cnn.io/index/fearandgreed/graphdata", {
-      headers: {
-        "User-Agent":
-          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.67 Safari/537.36",
-      },
-    })
+  exAPIs.fearGreed()
     .then((response) => {
       console.log(response.data.fear_and_greed);
       res.send(response.data.fear_and_greed);
@@ -172,5 +175,13 @@ app.get("/nextearnings", (req, res) => {
     // console.log('resolved')
     console.log("found date", date);
     res.send(date);
+  });
+});
+
+app.get("/roic", (req, res) => {
+  roic(req.query.ticker).then((roic) => {
+    // console.log('resolved')
+    // console.log("roic", ticker);
+    res.send(roic);
   });
 });
