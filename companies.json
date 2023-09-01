@@ -1,21 +1,62 @@
 [
   {
-    "ticker": "BABA"
+    "ticker": "EPAM",
+    "evaluation": {
+      "eval_overview": "something",
+      "gr_fcf__check": false,
+      "gr_netincome_check": false,
+      "gr_revenue_check": false,
+      "gr_eps_check": false,
+      "_check": true,
+      "roic_check": true,
+      "asset_check": false,
+      "case_per_share_check": false,
+      "divident_check": false,
+      "eval_financial": "YOOOOOO",
+      "de_check": true,
+      "cr_check": true,
+      "gro_check": false,
+      "insb_check": false,
+      "integ_check": false,
+      "margin_check": true,
+      "debt_check": false,
+      "eval_mgmt": true,
+      "pe_vs_industry_check": true,
+      "price_to_book_check": false,
+      "price_to_fcf_check": false,
+      "peg_ratio_check": false,
+      "eval_mos": true,
+      "eval_thesis": "IT WORKS"
+    }
   },
   {
-    "ticker": "BOB"
-  },
-  {
-    "ticker": "MSFT",
-    "earningsDate": "Apr 25"
-  },
-  {
-    "ticker": "AMZN"
-  },
-  {
-    "ticker": "COF"
-  },
-  {
-    "ticker": "BA"
+    "ticker": "INTC",
+    "evaluation": {
+      "eval_overview": "something",
+      "gr_fcf__check": "",
+      "gr_netincome_check": false,
+      "gr_revenue_check": false,
+      "gr_eps_check": "",
+      "_check": "",
+      "roic_check": false,
+      "asset_check": false,
+      "case_per_share_check": false,
+      "divident_check": "",
+      "eval_financial": "",
+      "de_check": "",
+      "cr_check": "",
+      "gro_check": true,
+      "insb_check": true,
+      "integ_check": "",
+      "margin_check": "",
+      "debt_check": "",
+      "eval_mgmt": "",
+      "pe_vs_industry_check": "",
+      "price_to_book_check": "",
+      "price_to_fcf_check": "",
+      "peg_ratio_check": "",
+      "eval_mos": "",
+      "eval_thesis": ""
+    }
   }
 ]

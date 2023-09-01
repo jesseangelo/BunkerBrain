@@ -151,18 +151,36 @@ app.post("/update", (req, res) => {
   //
   var all = io.getCompanies();
   var allUpdated = [];
-  for (var n = 0; n < all.length; n++) {
-    var comp = all[n];
+  let isFound = false;
 
-    if (all[n].ticker == req.body.ticker) {
-      console.log("COMPARED");
-      allUpdated.push(req.body);
+  for(let i = 0; i < all.length; i++) {
+    if(all[i].ticker == req.body.ticker) {
+      console.log('fond') 
+      isFound = true;
+      allUpdated.push(req.body)
     } else {
-      allUpdated.push(comp);
+      console.log('not')
+      allUpdated.push(all[i])
     }
-  }
+   }
+   
+   if(!isFound) {
+    allUpdated.push(req.body)
+     }
 
-  console.log(allUpdated);
+  // for (var n = 0; n < all.length; n++) {
+  //   var comp = all[n];
+  //   console.log('working........')
+
+  //   if (all[n].ticker == req.body.ticker) {
+  //     console.log("COMPARED and found", req.body.ticker);
+  //     allUpdated.push(req.body);
+  //   } else {
+  //     allUpdated.push(comp);
+  //   }
+  // }
+
+  console.log('saving all', allUpdated);
   // const allUpdated = []
   io.saveData(allUpdated);
   init();
