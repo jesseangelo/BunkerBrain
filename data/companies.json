@@ -58,5 +58,36 @@
       "eval_mos": "",
       "eval_thesis": ""
     }
+  },
+  {
+    "ticker": "WSM",
+    "evaluation": {
+      "eval_overview": "",
+      "gr_fcf__check": "",
+      "gr_netincome_check": "",
+      "gr_revenue_check": "",
+      "gr_eps_check": "",
+      "roic_check": "",
+      "asset_check": "",
+      "case_per_share_check": "",
+      "dividend_check": "",
+      "eval_financial": "",
+      "de_check": "",
+      "cr_check": "",
+      "gro_check": "",
+      "insb_check": "",
+      "integ_check": "",
+      "margin_check": "",
+      "debt_check": "",
+      "eval_mgmt": "",
+      "pe_vs_industry_check": "",
+      "price_to_book_check": "",
+      "price_to_fcf_check": "",
+      "peg_ratio_check": "",
+      "eval_mos": "",
+      "eval_thesis": "",
+      "target_price": ""
+    },
+    "shares_held": 0
   }
 ]

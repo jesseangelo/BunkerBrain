@@ -1,4 +1,8 @@
 const fs = require("fs");
+// local
+const path = './data/';
+// server
+// const path = './';
 
 module.exports = {
   loaded_companies: [],
@@ -10,23 +14,25 @@ module.exports = {
   },
 
   getCompanies() {
-    return loaded_companies;
+    return this.loaded_companies;
   },
 
   loadData: function() {
-    fs.readFile('companies.json', (err, data) => {
+    fs.readFile(path + 'companies.json', (err, data) => {
       if (err) {
         console.error(err);
         return;
       }
-      console.log("Successfully read data from file");
-      loaded_companies = JSON.parse(data)
+      
+      this.loaded_companies = JSON.parse(data)
+      console.log("Successfully read data from file", this.loaded_companies);
     });
   },
 
   saveData: function(companies) {
+    console.log('comapnies', companies)
     this.backUp();
-    fs.writeFile('companies.json',
+    fs.writeFile(path + 'companies.json',
       JSON.stringify(companies, null, 2), (err) => {
         if (err) {
           console.error(err);
@@ -38,15 +44,19 @@ module.exports = {
   },
 
   backUp: function() {
-    fs.writeFile('companies_backup.json',
-      JSON.stringify(loaded_companies, null, 2), (err) => {
+    const time = Date.now();
+    fs.writeFile(
+      `${path}companies_${time}.json`,
+      JSON.stringify(this.loaded_companies, null, 2),
+      (err) => {
         if (err) {
           console.error(err);
           return;
         }
-        console.log("Successfully backed up data to file");
+        console.log(`Successfully backed up data to file companies_${time}.json`);
         // We should then load here
-      });
+      }
+    );
   }
 }
 
