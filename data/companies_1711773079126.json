@@ -62,7 +62,7 @@
   {
     "ticker": "WSM",
     "evaluation": {
-      "eval_overview": "Let's test",
+      "eval_overview": "",
       "gr_fcf__check": "",
       "gr_netincome_check": "",
       "gr_revenue_check": "",

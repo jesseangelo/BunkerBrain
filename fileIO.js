@@ -30,7 +30,7 @@ module.exports = {
   },
 
   saveData: function(companies) {
-    console.log('comapnies', companies)
+    // console.log('comapnies', companies)
     this.backUp();
     fs.writeFile(path + 'companies.json',
       JSON.stringify(companies, null, 2), (err) => {
@@ -40,6 +40,8 @@ module.exports = {
         }
         console.log("Successfully written data to file");
         // We should then load here
+        this.loaded_companies = [];
+        this.loadData();
       });
   },
 
